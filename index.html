@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage WebXR & Monument Intelligence Platform</title>
+  <meta name="description" content="AI WebXR AR Camera for eroded monuments 3D wireframe reconstruction, multilingual story narration, and tourist safety platform.">
+  
+  <!-- CSS Stylesheets & Fonts -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+  <!-- Top Navigation & Mode Switcher Bar -->
+  <header class="top-navbar">
+    <div class="brand-logo">
+      <div class="brand-icon">🏛️</div>
+      <div>
+        <h1 class="brand-title">HERITAGE XR</h1>
+        <div class="brand-subtitle">AR Monument Reconstruction & Safety</div>
+      </div>
+    </div>
+
+    <!-- Mode Switcher for PPT & Live Hackathon Presentation -->
+    <div class="mode-switcher">
+      <button class="mode-btn active" id="btn-mode-mobile" onclick="switchViewMode('mobile')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Mobile AR App
+      </button>
+      <button class="mode-btn" id="btn-mode-desktop" onclick="switchViewMode('desktop')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Desktop Command Center
+      </button>
+    </div>
+
+    <div class="badge-hackathon" style="border-color: var(--cyan-wireframe); color: var(--cyan-wireframe);">
+      🟢 LIVE WEBXR ACTIVE
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 1: MOBILE APP EXPERIENCE -->
+  <!-- ========================================================= -->
+  <main id="view-mobile" class="view-container active">
+    <div class="mobile-wrapper">
+      <div class="phone-frame">
+        <!-- Phone Notch Header -->
+        <div class="phone-notch">
+          <div class="notch-camera"></div>
+          <div class="notch-speaker"></div>
+        </div>
+
+        <div class="phone-content">
+          <!-- MOBILE TAB 1: WEBXR AR CAMERA & 3D RECONSTRUCTION -->
+          <section id="mobile-tab-ar" class="mobile-tab-page active">
+            
+            <!-- Camera Viewport & WebXR AR Scanner HUD -->
+            <div class="ar-viewport">
+              <video id="ar-video-feed" class="camera-feed" autoplay playsinline muted></video>
+              
+              <!-- Video Fallback Simulator Graphic -->
+              <div id="camera-fallback" class="camera-fallback" style="display: none;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-wireframe)" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px;">WebXR Simulated Feed Ready</p>
+              </div>
+
+              <!-- HUD Overlay -->
+              <div class="ar-hud-overlay">
+                <div class="ar-hud-header">
+                  <div class="ar-status-badge">
+                    <span class="status-dot"></span>
+                    <span id="ar-status-text">WEBXR AR STREAM ACTIVE</span>
+                  </div>
+                </div>
+
+                <!-- Reticle & Scanner Laser Bar -->
+                <div class="ar-reticle">
+                  <div class="reticle-corner corner-tl"></div>
+                  <div class="reticle-corner corner-tr"></div>
+                  <div class="reticle-corner corner-bl"></div>
+                  <div class="reticle-corner corner-br"></div>
+                  <div class="laser-scanner"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AR Sample Target Selection Pills -->
+            <div class="sample-selector">
+              <label>Select Eroded Artifact Demo Target:</label>
+              <div class="sample-buttons">
+                <button class="sample-btn active" onclick="selectScanSample('hampi-pillar')">🏛️ Hampi Sun Pillar</button>
+                <button class="sample-btn" onclick="selectScanSample('ashoka-edict')">📜 Ashoka Rock Edict</button>
+                <button class="sample-btn" onclick="selectScanSample('chola-inscription')">🪨 Chola Basalt Inscription</button>
+              </div>
+            </div>
+
+            <!-- Scan Action Button -->
+            <button class="btn-scan-ar" onclick="triggerARScanProcess()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              SCAN & RECONSTRUCT 3D WIREFRAME
+            </button>
+
+            <!-- 3D Reconstruction Viewport Card -->
+            <div class="reconstruction-card">
+              <div class="reconstruction-header">
+                <div class="reconstruction-title" id="reconstruct-artifact-name">Eroded Sun Temple Pillar</div>
+                <span class="badge-hackathon" style="font-size: 0.65rem;">3D WIREFRAME MESH</span>
+              </div>
+              
+              <div class="wireframe-canvas-container">
+                <div id="wireframe-3d-canvas"></div>
+                <div class="canvas-controls-overlay">
+                  <button class="canvas-btn" onclick="toggleMeshWireframe()">Wireframe / Solid</button>
+                  <button class="canvas-btn" onclick="reset3DCamera()">Reset View</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Multilingual Story & Audio Narration Card -->
+            <div class="story-card">
+              <div class="story-header">
+                <h4>🎙️ Multilingual Storyteller</h4>
+                <select id="narrative-lang-select" class="language-picker" onchange="changeStoryLanguage(this.value)">
+                  <option value="en">English (Original)</option>
+                  <option value="hi">हिन्दी (Hindi)</option>
+                  <option value="ta">தமிழ் (Tamil)</option>
+                  <option value="te">తెలుగు (Telugu)</option>
+                  <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                  <option value="bn">বাংলা (Bengali)</option>
+                  <option value="es">Español</option>
+                  <option value="fr">Français</option>
+                </select>
+              </div>
+              
+              <div id="story-text-display" class="story-text-box">
+                Loading storytelling narrative...
+              </div>
+
+              <div class="audio-controls">
+                <button class="btn-audio-play" id="btn-audio-narration" onclick="toggleStoryAudio()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span id="audio-btn-text">Listen Story</span>
+                </button>
+                <div class="audio-wave" id="audio-visualizer">
+                  <div class="wave-bar"></div>
+                  <div class="wave-bar"></div>
+                  <div class="wave-bar"></div>
+                  <div class="wave-bar"></div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- MOBILE TAB 2: TOURIST SAFETY & HELPLINES DASHBOARD -->
+          <section id="mobile-tab-safety" class="mobile-tab-page" style="display: none;">
+            <div class="safety-dashboard">
+              
+              <!-- Safe Route Card -->
+              <div class="safety-card">
+                <div class="safety-header">
+                  <h3 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--gold-light);">
+                    🗺️ Safest Route Navigation
+                  </h3>
+                  <div class="safety-score-pill">96% SAFE CORRIDOR</div>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
+                  Hampi Station ➔ Vitthala Temple Complex
+                </p>
+
+                <div class="safety-metrics-grid">
+                  <div class="metric-item">
+                    <div class="metric-label">Smart Lighting</div>
+                    <div class="metric-val">94% Covered</div>
+                  </div>
+                  <div class="metric-item">
+                    <div class="metric-label">Patrol Frequency</div>
+                    <div class="metric-val">15 mins</div>
+                  </div>
+                  <div class="metric-item">
+                    <div class="metric-label">Safe Checkpoints</div>
+                    <div class="metric-val">3 Active Posts</div>
+                  </div>
+                  <div class="metric-item">
+                    <div class="metric-label">Crowd Density</div>
+                    <div class="metric-val">Optimal</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Emergency Helpline Directory -->
+              <div class="safety-card">
+                <h3 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--gold-light); margin-bottom: 12px;">
+                  🚨 Emergency & Tourist Helplines
+                </h3>
+                <div class="emergency-grid" id="emergency-contacts-container">
+                  <!-- Contacts dynamically populated -->
+                </div>
+
+                <button class="sos-trigger-btn" onclick="triggerSOSPanicAlert()">
+                  ⚠️ INSTANT SOS PANIC ALERT
+                </button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- MOBILE TAB 3: SCANNED VAULT -->
+          <section id="mobile-tab-vault" class="mobile-tab-page" style="display: none;">
+            <div style="padding: 15px;">
+              <h3 style="font-family: var(--font-serif); color: var(--gold-primary); margin-bottom: 12px;">
+                📦 Scanned Artifact Vault
+              </h3>
+              <div class="vault-list" id="mobile-vault-list">
+                <!-- Vault items dynamically populated -->
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Phone Bottom Navigation Bar -->
+        <nav class="mobile-nav-bar">
+          <button class="mobile-tab-btn active" id="tab-btn-ar" onclick="switchMobileTab('ar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            AR Camera
+          </button>
+          <button class="mobile-tab-btn" id="tab-btn-safety" onclick="switchMobileTab('safety')">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Tourist Safety
+          </button>
+          <button class="mobile-tab-btn" id="tab-btn-vault" onclick="switchMobileTab('vault')">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+            Scanned Vault
+          </button>
+        </nav>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 2: DESKTOP COMMAND CENTER -->
+  <!-- ========================================================= -->
+  <main id="view-desktop" class="view-container">
+    <div class="desktop-layout">
+      <div class="desktop-grid">
+        
+        <!-- Left Section: Interactive Heritage Map Bandwidth -->
+        <div class="map-card-container">
+          <div class="map-header">
+            <div class="map-title-group">
+              <h2>🌐 Heritage Map Bandwidth Explorer</h2>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Explore historical monuments worldwide, examine 3D scans, and access history on click.
+              </p>
+            </div>
+            
+            <div class="search-map-box">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="map-search-input" class="search-map-input" placeholder="Search monument or city..." onkeyup="filterMapMonuments(this.value)">
+            </div>
+          </div>
+
+          <!-- Leaflet Interactive Map Viewport -->
+          <div id="desktop-leaflet-map"></div>
+        </div>
+
+        <!-- Right Section: Sidebar (Scanned Vault & Relatable Recommendations) -->
+        <aside class="desktop-sidebar">
+          
+          <!-- Scanned Vault Panel -->
+          <div class="sidebar-card">
+            <div class="sidebar-title">
+              <span>🏛️ Scanned Artifacts Vault</span>
+              <span style="font-size: 0.75rem; color: var(--cyan-wireframe);">3 Active Scans</span>
+            </div>
+            <div class="vault-list" id="desktop-vault-list">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- Relatable Monuments Engine -->
+          <div class="sidebar-card">
+            <div class="sidebar-title">
+              <span>✨ Relatable Monuments</span>
+              <span style="font-size: 0.75rem; color: var(--gold-primary);">AI Recommendation</span>
+            </div>
+            <div class="relatable-grid" id="desktop-relatable-container">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- External JS Libraries (Three.js for 3D Wireframes & Leaflet for Interactive Map) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Application Logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
