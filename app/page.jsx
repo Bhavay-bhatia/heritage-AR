@@ -58,10 +58,18 @@ const LeafletMap = dynamic(() => import('../components/LeafletMap'), {
 });
 
 export default function Home() {
-  const [currentMode, setCurrentMode] = useState('mobile');
+  const [currentMode, setCurrentMode] = useState('desktop');
   const [currentMobileTab, setCurrentMobileTab] = useState('ar');
   const [selectedArtifactId, setSelectedArtifactId] = useState('hampi-pillar');
   const [isScanning, setIsScanning] = useState(false);
+
+  // Auto-detect phone vs laptop/desktop size on initial load
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768;
+      setCurrentMode(isMobile ? 'mobile' : 'desktop');
+    }
+  }, []);
 
   const selectedArtifact =
     HERITAGE_DATA.scannedArtifacts.find((a) => a.id === selectedArtifactId) ||
