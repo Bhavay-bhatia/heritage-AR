@@ -424,7 +424,7 @@ function renderMapMarkers(monuments) {
     
     const popupContent = `
       <div style="padding: 6px; max-width: 240px;">
-        <img src="${mon.image}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">
+        <img src="${mon.image}" onerror="this.onerror=null; if(this.src.indexOf('public/')===-1){this.src='public/'+this.src.split('/').pop();}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">
         <h4 style="font-family: var(--font-serif); color: var(--gold-primary); font-size: 1rem; margin-bottom: 4px;">${mon.name}</h4>
         <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">📍 ${mon.location} | ${mon.dynasty}</p>
         <p style="font-size: 0.78rem; line-height: 1.4; color: #E2E8F0; margin-bottom: 8px;">${mon.summary}</p>
@@ -479,7 +479,7 @@ function renderVaultLists() {
 
   const vaultHTML = HERITAGE_DATA.scannedArtifacts.map(art => `
     <div class="vault-item" onclick="loadSampleArtifact('${art.id}'); switchMobileTab('ar');">
-      <img src="${art.thumbnail}" class="vault-img" alt="${art.name}">
+      <img src="${art.thumbnail}" onerror="this.onerror=null; if(this.src.indexOf('public/')===-1){this.src='public/'+this.src.split('/').pop();}" class="vault-img" alt="${art.name}">
       <div class="vault-info">
         <h5>${art.name}</h5>
         <p>📍 ${art.location}</p>
@@ -503,7 +503,7 @@ function renderRelatableMonuments(artifactId) {
 
   container.innerHTML = relatables.map(rel => `
     <div class="relatable-card" onclick="exploreMonumentDetails('${rel.id}')" style="cursor: pointer;">
-      <img src="${rel.image}" alt="${rel.name}">
+      <img src="${rel.image}" onerror="this.onerror=null; if(this.src.indexOf('public/')===-1){this.src='public/'+this.src.split('/').pop();}" alt="${rel.name}">
       <div class="relatable-content">
         <h6>${rel.name}</h6>
         <p>🏛️ ${rel.dynasty}</p>

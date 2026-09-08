@@ -162,7 +162,7 @@ export default function LeafletMap({ onSelectMonument }) {
       popupDiv.style.padding = '8px';
       popupDiv.style.maxWidth = '260px';
       popupDiv.innerHTML = `
-        <img src="${mon.image}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; border: 1px solid #E5D9C3;" alt="${mon.name}">
+        <img src="${mon.image}" onerror="this.onerror=null; if(this.src.indexOf('/images/')!==-1){this.src=this.src.replace('/images/','images/');}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; border: 1px solid #E5D9C3;" alt="${mon.name}">
         <h4 style="font-family: 'Cinzel', serif; color: #9C3A16; font-size: 1.05rem; font-weight: 700; margin-bottom: 4px;">${mon.name}</h4>
         <p style="font-size: 0.76rem; color: #736352; font-weight: 600; margin-bottom: 6px;">📍 ${mon.location} | ${mon.dynasty}</p>
         <p style="font-size: 0.8rem; line-height: 1.45; color: #241C15; margin-bottom: 10px;">${mon.summary}</p>

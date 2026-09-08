@@ -11,6 +11,14 @@ export default function RelatableMonuments({ currentArtifactId, onExploreMonumen
   const relatableIds = currentArtifact.relatableIds || ['brihadeeswarar', 'konark-sun'];
   const relatables = HERITAGE_DATA.mapMonuments.filter((m) => relatableIds.includes(m.id));
 
+  const handleImageError = (e) => {
+    const currentSrc = e.target.src;
+    if (currentSrc.includes('/images/')) {
+      e.target.onerror = null;
+      e.target.src = currentSrc.replace('/images/', 'images/');
+    }
+  };
+
   return (
     <div className="relatable-grid">
       {relatables.map((rel) => (
@@ -19,7 +27,11 @@ export default function RelatableMonuments({ currentArtifactId, onExploreMonumen
           className="relatable-card"
           onClick={() => onExploreMonument && onExploreMonument(rel.id)}
         >
-          <img src={rel.image} alt={rel.name} />
+          <img
+            src={rel.image}
+            alt={rel.name}
+            onError={handleImageError}
+          />
           <div className="relatable-content">
             <h6>{rel.name}</h6>
             <p>🏛️ {rel.dynasty}</p>
